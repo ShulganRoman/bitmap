@@ -1,3 +1,3 @@
 # BitMaP
 example\
-![](third.bmp) 
+![](second.bmp) 
