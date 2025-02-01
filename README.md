@@ -1,1 +1,3 @@
-# bitmap
+# BitMaP
+example\
+![](third.bmp) 
