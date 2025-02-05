@@ -1,10 +1,12 @@
 #ifndef BITMAP_Header_H
 #define BITMAP_Header_H
 
+#include "color.h"
 #include "defs.h"
 #include <CoreGraphics/CoreGraphics.h>
 #include <cmath>
 #include <sys/_endian.h>
+#include <vector>
 
 #define WIDTH 100
 #define HEIGHT 100
@@ -17,14 +19,14 @@
   (CGDisplayPixelsHigh(CGMainDisplayID()) /                                    \
    CGDisplayScreenSize(CGMainDisplayID()).height * 1000)
 
-struct Palette32 {
-  DWORD redmask = 0x0f00;
-  DWORD greenmask = 0x00f0;
-  DWORD bluemask = 0x000f;
-  DWORD alphamask = 0xf000;
+#pragma pack(push, 1)
+
+struct Palette1 { // for bitCount = 1
+  std::vector<DWORD> colors = {color::black, color::white};
+
+  size_t getSize() { return colors.size() * sizeof(color); }
 };
 
-#pragma pack(push, 1)
 struct InfoHeader {
   DWORD size = sizeof(InfoHeader);
   LONG width = WIDTH;
@@ -38,16 +40,15 @@ struct InfoHeader {
   DWORD clrUsed = COLORS_USED(bitCount);
   DWORD clrImportant = 0;
 };
-#pragma pack(pop)
 
-#pragma pack(push, 1)
 struct Header {
   WORD type = 0x4d42;
-  DWORD size = (WIDTH * HEIGHT) / 8 + sizeof(Header) + sizeof(InfoHeader) + 8;
+  DWORD size;
   WORD reserved1 = 0;
   WORD reserved2 = 0;
-  DWORD offBits = sizeof(Header) + sizeof(InfoHeader) + 8;
+  DWORD offBits;
 };
+
 #pragma pack(pop)
 
 #endif // BITMAP_Header_H
