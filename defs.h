@@ -1,10 +1,9 @@
 #ifndef BITMAP_DEFS_H
 #define BITMAP_DEFS_H
 
-#define UI unsigned int
-#define US unsigned short
-#define UC unsigned char
-
-#define MAYBE_UN [[maybe_unused]]
+using BYTE = unsigned char;
+using WORD = unsigned short;
+using DWORD = unsigned int;
+using LONG = int;
 
 #endif // BITMAP_DEFS_H

@@ -1,3 +1,19 @@
-#include <iostream>
+#include "bmp.h"
+#include "color.h"
+#include "defs.h"
 
-int main() {}
+using namespace std;
+
+int main() {
+  vector<DWORD> palette = {color::black, color::white};
+  vector<vector<BYTE>> image = {
+      {0xff, 0xff}, {0x80, 0x02}, {0xbf, 0xfa}, {0xa0, 0x0a}, {0xaf, 0xea},
+      {0xa8, 0x2a}, {0xab, 0xaa}, {0xaa, 0xaa}, {0xab, 0xaa}, {0xa8, 0x2a},
+      {0xaf, 0xea}, {0xa0, 0x0a}, {0xbf, 0xfa}, {0x80, 0x02}, {0xff, 0xff},
+  };
+
+  bmp3 test("/Users/romansulgan/repos/bitmap/example1.bmp");
+
+  test.resize(15, 15);
+  test.create(image, palette);
+}
