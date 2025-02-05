@@ -8,4 +8,5 @@ enum color {
   green = 0x0000ff00,
   blue = 0x000000ff,
 };
+
 #endif // BITMAP_COLOR_H
