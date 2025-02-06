@@ -23,26 +23,28 @@ public:
   explicit bmp3(const std::string &path) : fileName(path) {
     std::ifstream file(path, std::ios::binary);
 
-    if (file.is_open()) {
-      file.read(reinterpret_cast<char *>(&header), sizeof(header));
-      file.read(reinterpret_cast<char *>(&infoHeader), sizeof(infoHeader));
-      file.close();
+    actualWidthInBytes = 16;
 
-      try {
-        isValid();
-      } catch (const std::exception &e) {
-        std::cerr << e.what();
-      }
+    image = std::vector<std::vector<BYTE>>(
+        infoHeader.height, std::vector<BYTE>(actualWidthInBytes));
 
-      actualWidthInBytes = infoHeader.width % 32
-                               ? (infoHeader.width / 32 + 1) * 4
-                               : infoHeader.width / 8;
+    if (!file)
+      return;
 
-      image = std::vector<std::vector<BYTE>>(
-          infoHeader.height, std::vector<BYTE>(actualWidthInBytes));
+    file.read(reinterpret_cast<char *>(&header), sizeof(header));
+    file.read(reinterpret_cast<char *>(&infoHeader), sizeof(infoHeader));
+    file.close();
 
-      readImage();
+    try {
+      isValid();
+    } catch (const std::exception &e) {
+      std::cerr << e.what();
     }
+
+    actualWidthInBytes = infoHeader.width % 32 ? (infoHeader.width / 32 + 1) * 4
+                                               : infoHeader.width / 8;
+
+    readImage();
   }
 
   void setImage(std::vector<std::vector<BYTE>> &img, DWORD X = 0, DWORD Y = 0) {
@@ -81,6 +83,9 @@ public:
 
     actualWidthInBytes = infoHeader.width % 32 ? (infoHeader.width / 32 + 1) * 4
                                                : infoHeader.width / 8;
+
+    image = std::vector<std::vector<BYTE>>(
+        infoHeader.height, std::vector<BYTE>(actualWidthInBytes));
   }
 
   void setColors(std::vector<color> colors) {

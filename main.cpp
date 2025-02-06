@@ -12,9 +12,9 @@ int main() {
       {0xaf, 0xea}, {0xa0, 0x0a}, {0xbf, 0xfa}, {0x80, 0x02}, {0xff, 0xfc},
   };
 
-  bmp3 test("/Users/romansulgan/Desktop/test1.bmp");
+  bmp3 test("/Users/romansulgan/repos/bitmap/example1.bmp");
 
-  test.resize(1, 1);
+  test.resize(400, 200);
   test.setColors({color::white, color::black});
   test.setImage(image, 0, 0);
   test.create();
